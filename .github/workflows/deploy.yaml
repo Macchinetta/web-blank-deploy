@@ -25,7 +25,7 @@ jobs:
           server-username: MAVEN_CENTRAL_USERNAME
           server-password: MAVEN_CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrage: GPG_PASSPHRASE
+          gpg-passphrase: GPG_PASSPHRASE
 
 
       - name: Build
