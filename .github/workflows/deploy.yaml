@@ -18,14 +18,14 @@ jobs:
     - name: Set up Java and Maven
       uses: actions/setup-java@v5
       with:
-        distribution: temurin
+        distribution:temurin
 	java-version: "21"
-	cache: maven
-	server-id: central
-	server-username: MAVEN_CENTRAL_USERNAME
-	server-password: MAVEN_CENTRAL_PASSWORD
-	gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-	gpg-passphrage: GPG_PASSPHRASE
+        cache: maven
+        server-id: central
+        server-username: MAVEN_CENTRAL_USERNAME
+        server-password: MAVEN_CENTRAL_PASSWORD
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        gpg-passphrage: GPG_PASSPHRASE
 
 
     - name: Build
@@ -35,6 +35,6 @@ jobs:
       run: mvn deploy -f tmp/target/generated-sources/archetype/pom.xml
       env:
         MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-	MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-	GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 	
