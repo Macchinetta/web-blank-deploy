@@ -29,7 +29,7 @@ jobs:
 
 
       - name: Remove RF
-        run: find . -name *.sh -type f | xargs sed -i -e s/\\\\r//g
+        run: find . -name '*.sh' -type f | xargs sed -i -e s/\\\\r//g
 
       - name: Build
         run: bash ./create-maven-archetype-javaconfig-jsp-noorm.sh install central
