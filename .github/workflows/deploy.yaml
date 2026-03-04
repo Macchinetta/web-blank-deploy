@@ -27,9 +27,11 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
-
       - name: Remove RF
         run: find . -name '*.sh' -type f | xargs sed -i -e s/\\\\r//g
+
+      - name: Change shell
+        run: find . -name '*.sh' -type f | xargs sed -i -e s/^sh/bash/g
 
       - name: Build
         run: bash ./create-maven-archetype-javaconfig-jsp-noorm.sh install central
