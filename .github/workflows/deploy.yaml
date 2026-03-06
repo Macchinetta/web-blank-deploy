@@ -35,6 +35,8 @@ jobs:
 
       - name: Build
         run: bash ./create-maven-archetype-javaconfig-jsp-noorm.sh install central
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Deploy
         run: mvn deploy -f tmp/target/generated-sources/archetype/pom.xml
