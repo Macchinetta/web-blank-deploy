@@ -1,0 +1,56 @@
+name: publish to Maven Central - for Batch Framework
+
+on:
+  workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        required: true
+        options:
+          - "./build-javaconfig.sh"
+          - "./build-xmlconfig.sh"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          repository: 'macchinetta/macchinetta-batch-blank'
+          ref: '2.6.1.RELEASE'
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Setup Groovy
+        uses: wtfjoke/setup-groovy@v3
+	with:
+	  groovy-version: "5.0.4"
+
+      - name: Remove RF
+        run: find . -name '*.sh' -type f | xargs sed -i -e s/\\\\r//g
+
+      - name: Change shell
+        run: find . -name '*.sh' -type f | xargs sed -i -e s/^sh/bash/g
+
+      - name: Build
+        run: bash ${{ github.event.inputs.choice }}
+
+      - name: Deploy
+        run: mvn clean deploy -f macchinetta-batch-blankproject/target/generated-sources/archetype/pom.xml -P central
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
