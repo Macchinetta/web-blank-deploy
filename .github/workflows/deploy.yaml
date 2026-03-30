@@ -7,14 +7,10 @@ on:
         type: choice
         required: true
         options:
-          - "./create-maven-archetype-javaconfig-jsp-noorm.sh"
           - "./create-maven-archetype-javaconfig-jsp-mybatis3.sh"
           - "./create-maven-archetype-javaconfig-thymeleaf-mybatis3.sh"
-          - "./create-maven-archetype-javaconfig-thymeleaf-noorm.sh"
           - "./create-maven-archetype-xmlconfig-jsp-mybatis3.sh"
-          - "./create-maven-archetype-xmlconfig-jsp-noorm.sh"
           - "./create-maven-archetype-xmlconfig-thymeleaf-mybatis3.sh"
-          - "./create-maven-archetype-xmlconfig-thymeleaf-noorm.sh"
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -24,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          repository: 'macchinetta/macchinetta-web-blank'
+          repository: 'macchinetta/macchinetta-web-multi-blank'
           ref: '1.11.1.RELEASE'
 
       - name: Set up Java and Maven
