@@ -39,12 +39,6 @@ jobs:
         with:
           groovy-version: "5.0.4"
 
-      - name: Remove RF
-        run: find . -name '*.sh' -type f | xargs sed -i -e s/\\\\r//g
-
-      - name: Change shell
-        run: find . -name '*.sh' -type f | xargs sed -i -e s/^sh/bash/g
-
       - name: Build
         run: bash ${{ github.event.inputs.choice }}
 
