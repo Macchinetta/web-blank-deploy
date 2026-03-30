@@ -58,5 +58,5 @@ jobs:
         if: ${{ github.event.inputs.choice == 'xmlconfig' }}
         run: cp -R config/xmlconfig/jobs macchinetta-batch-blankproject/src/main/resources/META-INF
 
-      - name: Create archtype
-        run: cd macchinetta-batch-blankproject; mvn clean archtype:create-from-project -DpackageName=xxxxxx.yyyyyy.zzzzzz.projectName; cd ..; groovy CreateArchtype.groovy ${{github.event.inputs.choice}}
+      - name: Create archetype
+        run: cd macchinetta-batch-blankproject; mvn clean archetype:create-from-project -DpackageName=xxxxxx.yyyyyy.zzzzzz.projectName; cd ..; groovy CreateArchetype.groovy ${{github.event.inputs.choice}}
