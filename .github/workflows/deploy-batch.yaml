@@ -36,8 +36,8 @@ jobs:
 
       - name: Setup Groovy
         uses: wtfjoke/setup-groovy@v3
-	with:
-	  groovy-version: "5.0.4"
+        with:
+          groovy-version: "5.0.4"
 
       - name: Remove RF
         run: find . -name '*.sh' -type f | xargs sed -i -e s/\\\\r//g
