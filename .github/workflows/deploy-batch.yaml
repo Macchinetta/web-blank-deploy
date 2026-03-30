@@ -7,8 +7,8 @@ on:
         type: choice
         required: true
         options:
-          - "./build-javaconfig.sh"
-          - "./build-xmlconfig.sh"
+          - "javaconfig"
+          - "xmlconfig"
 
 jobs:
   publish:
@@ -39,12 +39,24 @@ jobs:
         with:
           groovy-version: "5.0.4"
 
-      - name: Build
-        run: bash ${{ github.event.inputs.choice }}
+      - name: Remove .gitkeep
+        run: rm -rf macchinetta-batch-blankproject/src/main/resources/META-INF/*
 
-      - name: Deploy
-        run: mvn clean deploy -f macchinetta-batch-blankproject/target/generated-sources/archetype/pom.xml -P central
-        env:
-          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Copy config(Java Config)
+        if: ${{ github.event.inputs.choice == 'javaconfig' }}
+        run: cp -R config/javaconfig/config macchinetta-batch-blankproject/src/main/java/xxxxxx/yyyyyy/zzzzzz/projectName
+
+      - name: Copy config for jobs(Java Config)
+        if: ${{ github.event.inputs.choice == 'javaconfig' }}
+        run: cp -R config/javaconfig/jobs macchinetta-batch-blankproject/src/main/java/xxxxxx/yyyyyy/zzzzzz/projectName
+
+      - name: Copy config(XML Config)
+        if: ${{ github.event.inputs.choice == 'xmlconfig' }}
+        run: cp -R config/xmlconfig/spring macchinetta-batch-blankproject/src/main/resources/META-INF
+
+      - name: Copy config for jobs(XML Config)
+        if: ${{ github.event.inputs.choice == 'xmlconfig' }}
+        run: cp -R config/xmlconfig/jobs macchinetta-batch-blankproject/src/main/resources/META-INF
+
+      - name: Create archtype
+        run: cd macchinetta-batch-blankproject; mvn clean archtype:create-from-project -DpackageName=xxxxxx.yyyyyy.zzzzzz.projectName; cd ..; groovy CreateArchtype.groovy ${{github.event.inputs.choice}}
