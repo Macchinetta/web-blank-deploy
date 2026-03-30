@@ -39,9 +39,6 @@ jobs:
         with:
           groovy-version: "5.0.4"
 
-      - name: Remove .gitkeep
-        run: rm -rf macchinetta-batch-blankproject/src/main/resources/META-INF/*
-
       - name: Copy config(Java Config)
         if: ${{ github.event.inputs.choice == 'javaconfig' }}
         run: cp -R config/javaconfig/config macchinetta-batch-blankproject/src/main/java/xxxxxx/yyyyyy/zzzzzz/projectName
@@ -49,6 +46,10 @@ jobs:
       - name: Copy config for jobs(Java Config)
         if: ${{ github.event.inputs.choice == 'javaconfig' }}
         run: cp -R config/javaconfig/jobs macchinetta-batch-blankproject/src/main/java/xxxxxx/yyyyyy/zzzzzz/projectName
+
+      - name: Remove files under META-INF
+        if: ${{ github.event.inputs.choice == 'xmlconfig' }}
+        run: rm -rf macchinetta-batch-blankproject/src/main/resources/META-INF/*
 
       - name: Copy config(XML Config)
         if: ${{ github.event.inputs.choice == 'xmlconfig' }}
