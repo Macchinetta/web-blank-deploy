@@ -46,7 +46,7 @@ jobs:
         run: find . -name '*.sh' -type f | xargs sed -i -e s/^sh/bash/g
 
       - name: Build
-        run: bash ./create-maven-archetype-javaconfig-jsp-noorm.sh install central
+        run: bash ${{ github.event.inputs.choice }} install central
         env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
